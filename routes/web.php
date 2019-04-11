@@ -11,4 +11,5 @@
 |
 */
 
-Route::get('/','SearchsController@index');
+Route::get('/','SearchsController@index')->name('index');
+Route::post('/store','SearchsController@store')->name('store');

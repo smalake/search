@@ -19,6 +19,7 @@ class CreateCompaniesTable extends Migration
             $table->string('income');
             $table->string('language');
             $table->string('skill');
+            $table->integer('place');
             $table->string('comment');
             $table->timestamps();
         });

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Company;
+use function Psy\info;
 
 class SearchsController extends Controller
 {
@@ -13,7 +15,12 @@ class SearchsController extends Controller
      */
     public function index()
     {
-        return view('index');
+        $prefs = config('pref');
+        $incomes = Company::$incomes;
+        $languages = Company::$languages;
+        $skills = Company::$skills;
+        $items = Company::all();
+        return view('index',compact('prefs','incomes','languages','skills','items'));
     }
 
     /**
@@ -34,7 +41,14 @@ class SearchsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //検索結果をDBから引っ張ってくる
+        $search_place = $request->place;
+        $search_income = $request->income;
+        $search_language = $request->language; //配列
+        $search_skill = $request->skill;
+        //$result_id = Company::select('id','place','income','language','skill')->where('place','=',$search_place)->where('income','=',$search_income)->where('language','=',$search_language)->where('skill','=',$search_skill)->value('id');
+        $result_id = Company::select('id','place')->where('place','=',$search_place)->value('id');
+        return view('test2',compact('result_id'));
     }
 
     /**
