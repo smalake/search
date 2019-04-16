@@ -46,9 +46,32 @@ class SearchsController extends Controller
         $search_income = $request->income;
         $search_language = $request->language; //配列
         $search_skill = $request->skill;
-        //$result_id = Company::select('id','place','income','language','skill')->where('place','=',$search_place)->where('income','=',$search_income)->where('language','=',$search_language)->where('skill','=',$search_skill)->value('id');
-        $result_id = Company::select('id','place')->where('place','=',$search_place)->value('id');
-        return view('test2',compact('result_id'));
+        $loop_count = 0;
+        $prefs = config('pref');
+        $query = Company::query();
+        
+        if($search_place !== '0'){
+            $query->where('place',$search_place);
+        }
+        if($search_income !== '0'){
+            $query->where('income','>=',$search_income);
+        }
+        if($search_skill !== '0'){
+            $query->where('skill',$search_skill);
+        }
+        if($search_language != NULL){
+            foreach($search_language as $s_lang){
+                if($loop_count !== 0){
+                    $query->orWhere('language',$s_lang);
+                }
+                else{
+                    $query->where('language',$s_lang);
+                    $loop_count++;
+                }
+            }
+        }
+        $result = $query->get();
+        return view('test2',compact('result','prefs'));
     }
 
     /**

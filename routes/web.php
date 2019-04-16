@@ -13,3 +13,7 @@
 
 Route::get('/','SearchsController@index')->name('index');
 Route::post('/store','SearchsController@store')->name('store');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
