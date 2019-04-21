@@ -13,7 +13,10 @@
 
 Route::get('/','SearchsController@index')->name('index');
 Route::post('/store','SearchsController@store')->name('store');
+Route::get('/company_register','SearchsController@company_register')->name('company_register');
+Route::post('/company_store','SearchsController@company_store')->name('company_store');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/{id}','SearchsController@show')->name('show');

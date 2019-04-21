@@ -1,6 +1,13 @@
 @extends('layout')
 
+<?php //エスケープ処理用にモデル内の関数利用のための処理 ?>
+@inject('mylib', 'App\Company')
+
+
 @section('content')
+    <header>
+        <a href="{{route('company_register')}}">求人登録</a>
+    </header>
     <h1>求人検索</h1>
     <form action="{{route('store')}}" method="POST">
         @csrf
@@ -42,12 +49,16 @@
     </form>
     <hr>
     @foreach ($items as $item)
-        <div>{{$item->name}}</div>
+        <div><a href="{{url('/',$item->id)}}">{{$mylib->escape($item->name)}}</a></div>
         <div>勤務地：{{$prefs[$item->place]}}</div>
-        <div>年収：{{$item->income}}</div>
-        <div>使用言語：{{$item->language}}</div>
-        <div>スキルレベル：{{$item->skill}}</div>
-        <div>{{$item->comment}}</div>
+        <div>年収：{{$incomes[$item->income]}}</div>
+        <div>使用言語：
+            @foreach ($mylib->display_language($item->language) as $lang)
+                {{$languages[$lang]}}
+            @endforeach
+        </div>
+        <div>スキルレベル：{{$skills[$item->skill]}}</div>
+        <div>{{$mylib->escape($item->comment)}}</div>
         <hr>
     @endforeach
 @endsection
